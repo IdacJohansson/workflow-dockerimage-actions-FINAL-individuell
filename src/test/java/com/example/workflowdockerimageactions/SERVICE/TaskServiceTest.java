@@ -43,14 +43,14 @@ class TaskServiceTest {
         taskRepo.save(task);
 
         taskInstance = taskService.createNewTask("Clean", 2);
-        assertEquals("Clean", taskInstance.getTaskOfTheDay().getName());
+        assertEquals("Clean", taskInstance.getTask().getName());
         assertEquals(2, taskInstance.getTimeInHours());
     }
     @Test
     void createNewTaskIfTaskNotExistsExpectTrue() {
 
         taskInstance = taskService.createNewTask("Wash", 1);
-        assertEquals("Wash", taskInstance.getTaskOfTheDay().getName());
+        assertEquals("Wash", taskInstance.getTask().getName());
         assertEquals(1, taskInstance.getTimeInHours());
     }
 
