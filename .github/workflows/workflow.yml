@@ -1,130 +1,155 @@
+---
 
-name: CI/CD Setup
-
-# Triggar workflowet vid push till huvudgrenen eller öppning av en pull request mot huvudgrenen.
+name: Java CI and Dockerfile Validation
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-
+  - push
 jobs:
-  # Byggjobb som kompilerar och testar koden.
   build:
     runs-on: ubuntu-latest
+    environment: env
+    env:
+      DB_USER: ${{ vars.DB_USER }}
+      DB_PASSWORD: ${{ vars.DB_PASSWORD }}
+      SS_USER: ${{ vars.SS_USER }}
+      SS_PASSWORD: ${{ vars.SS_PASSWORD }}
     steps:
+
       - name: Checkout Repository
-        uses: actions/checkout@v2
-        # Hämtar koden från din Git-repo.
+        uses: actions/checkout@v4
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
-          java-version: 17
-        # Installerar och konfigurerar Java 17
+          java-version: "17"
+          distribution: temurin
 
       - name: Validate Gradle Wrapper
-        run: ./gradlew wrapper --gradle-version 7.2
-        # ADD: Validerar Gradle Wrapper-versionen och uppdaterar den om den är föråldrad.
+        uses: gradle/wrapper-validation-action@ccb4328a959376b642e027874838f60f8e596de3
 
       - name: Make Gradlew Executable
         run: chmod +x ./gradlew
-        # Gör Gradlew-skriptet exekverbart.
 
       - name: Build with Gradle
-        run: ./gradlew build
-        # Använder Gradle för att bygga projektet.
+        uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
 
-      - name: Test with Gradle
-        run: ./gradlew test
-        # Kör testerna för ditt projekt.
+      - name: bootJar
+        run: |
+          ./gradlew bootJar
+
+      - name: test-new-task
+        run: |
+          ./gradlew test
 
       - name: Upload Jar
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: app
           path: build/libs/workflow-dockerimage-actions-0.0.1-SNAPSHOT.jar
-        # Laddar upp byggresultatet (JAR-filen) som en artifakt.
 
-  # Testjobbet - kör systemtester.
   run-tests:
     runs-on: ubuntu-latest
     needs:
       - build
+      - validate-compose
+    environment: env
+    env:
+      DB_USER: ${{ vars.DB_USER }}
+      DB_PASSWORD: ${{ vars.DB_PASSWORD }}
+      SS_USER: ${{ vars.SS_USER }}
+      SS_PASSWORD: ${{ vars.SS_PASSWORD }}
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
-        # Hämtar koden från Git-repot.
+        uses: actions/checkout@v4
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
-          java-version: 17
-        # Installerar och konfigurerar Java 17 på testmaskinen.
+          java-version: "17"
+          distribution: temurin
 
       - name: Make Gradlew Executable
         run: chmod +x ./gradlew
-        # Gör Gradlew-skriptet exekverbart.
 
-      - name: Get Jar
-        uses: actions/download-artifact@v2
+      - name: get jar
+        uses: actions/download-artifact@v3
         with:
           name: app
-          path: build/libs
-        # Hämtar JAR-arten som byggdes i föregående jobb.
 
-      - name: Run App
-        run: java -jar workflow-dockerimage-actions-0.0.1-SNAPSHOT.jar &
-        # Startar din Java-applikation i bakgrunden.
+      - name: run-app
+        run: |
+          java -jar workflow-dockerimage-actions-0.0.1-SNAPSHOT.jar &
 
-      - name: Run System Tests
-        run: ./gradlew systemTesting
-        # Kör dina systemtester mot den körande applikationen.
+      - name: Run all tests
+        run: |
+          ./gradlew systemTesting
+  
 
-  # Bygger en Docker-build och pushar den till GitHub Container Registry.
-  dockerize:
+  validate-compose:
     runs-on: ubuntu-latest
-    needs:
-      - run-tests
+    environment: env
+    env:
+      DB_USER: ${{ vars.DB_USER }}
+      DB_PASSWORD: ${{ vars.DB_PASSWORD }}
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
-        # Hämtar koden från din Git-repo.
+        uses: actions/checkout@v4
+      - name: Set environment variables for Docker Compose
+        run: |
+          echo "DB_USER=${DB_USER}" >> .env
+          echo "DB_PASSWORD=${DB_PASSWORD}" >> .env
+      
+
+  dockerize:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    needs:
+      - run-tests
+
+    env:
+      REGISTRY: ghcr.io
+      IMAGE_NAME: ${{ github.repository }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
       - name: Download JAR Artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: app
           path: build/libs
-        # Hämtar JAR-arten som byggdes i första jobbet.
 
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v1
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-        # Loggar in på GitHub Container Registry för att kunna pusha Docker-builden.
 
-      - name: Build and Push Docker Image
-        uses: docker/build-push-action@v2
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
         with:
           context: .
           push: true
-          tags: ghcr.io/${{ github.repository }}:${{ github.sha }}
-        # Bygger Docker-bilden och pushar den till GitHub Container Registry.
-        # ${{ github.repository }} ersätts med namnet på ditt GitHub-repo och ${{ github.sha }} ersätts med SHA för den specifika commiten som bygget är baserat på.
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
 
-        #Exempel: Om ditt GitHub-repo heter "myapp" och bygget är baserat på commit SHA "abcdef123", kommer taggen att vara ghcr.io/myapp:abcdef123. Detta gör det möjligt att enkelt identifiera och använda den specifika versionen av Docker-bilden som byggdes från den commiten.
-
-  # Deploy-jobbet är för att deploya din applikation (kommentaren saknas i ditt ursprungliga workflow).
   deploy:
     runs-on: ubuntu-latest
-    needs:
-      - dockerize
+    needs: run-tests
+
     steps:
       - name: Deploy Your Application
-        run: echo "This is a message from the workflow task."
-        # Här kan du lägga till kommandon för att faktiskt deploya din applikation.
+        run: |
+          echo "This is a message from the workflow task."
