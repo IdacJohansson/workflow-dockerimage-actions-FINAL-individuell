@@ -26,7 +26,7 @@ async function test() {
 
 
 
-    await driver.quit();
+    //await driver.quit();
 };
 
 test();
