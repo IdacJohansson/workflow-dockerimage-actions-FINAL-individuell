@@ -3,7 +3,6 @@ package com.example.workflowdockerimageactions.SERVICE;
 import com.example.workflowdockerimageactions.DATA.Task;
 import com.example.workflowdockerimageactions.MODEL.TaskInstance;
 import com.example.workflowdockerimageactions.REPO.TaskRepo;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,13 +22,13 @@ public class TaskService {
     public TaskInstance createNewTask(String task, double timeInHours){
 
         if(taskRepo.findTasksByName(task) != null){
-            taskInstance = new TaskInstance(taskRepo.findTasksByName(task),timeInHours);
+            taskInstance = new TaskInstance(taskRepo.findTasksByName(task), timeInHours);
         }
         else{
             newTask = new Task();
             newTask.setName(task);
             taskRepo.save(newTask);
-            taskInstance = new TaskInstance(newTask,timeInHours);
+            taskInstance = new TaskInstance(newTask, timeInHours);
         }
         return taskInstance;
     }
@@ -45,5 +44,7 @@ public class TaskService {
         List<Task> tasks = taskRepo.findAll();
         System.out.println(tasks);
     }
+
+    // Jag är en dålig kommentar
 
 }

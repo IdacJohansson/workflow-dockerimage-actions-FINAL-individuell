@@ -12,12 +12,12 @@ public class TaskInstance {
         this.timeInHours = timeInHours;
     }
 
-    public Task getTask() {
-        return task;
+    public void setTaskOfTheDay(Task taskOfTheDay) {
+        this.task = task;
     }
 
-    public void setTask(Task task) {
-        this.task = task;
+    public Task getTaskOfTheDay() {
+        return task;
     }
 
     public double getTimeInHours() {

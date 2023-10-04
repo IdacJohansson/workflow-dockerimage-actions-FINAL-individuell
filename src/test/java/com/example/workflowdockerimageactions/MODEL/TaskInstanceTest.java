@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
 
 import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
@@ -28,16 +27,16 @@ class TaskInstanceTest {
 
     @Test
     void getTask() {
-        Task testTask = taskInstance.getTask();
+        Task testTask = taskInstance.getTaskOfTheDay();
         assertEquals(task, testTask);
     }
 
     @Test
     void setTask() {
         Task testTask = new Task(1,"wash");
-        taskInstance.setTask(testTask);
+        taskInstance.setTaskOfTheDay(testTask);
 
-        assertNotEquals(taskInstance.getTask(), task);
+        assertNotEquals(taskInstance.getTaskOfTheDay(), task);
     }
 
     @Test
