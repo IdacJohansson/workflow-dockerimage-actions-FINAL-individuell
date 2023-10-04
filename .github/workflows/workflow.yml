@@ -1,8 +1,7 @@
-
+---
 name: Java CI and Dockerfile Validation
 on:
   - push
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -51,7 +50,6 @@ jobs:
     needs:
       - build
       - validate-compose
-
     environment: env
     env:
       DB_USER: ${{ vars.DB_USER }}
@@ -98,7 +96,9 @@ jobs:
         run: |
           echo "DB_USER=${DB_USER}" >> .env
           echo "DB_PASSWORD=${DB_PASSWORD}" >> .env
-      
+      - name: Validate Docker Compose Configuration
+        run: |
+          docker-compose -f docker-compose.yml config --quiet
 
   dockerize:
     runs-on: ubuntu-latest
