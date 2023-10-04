@@ -166,4 +166,4 @@ jobs:
         run: |
           "echo Docker image would be: $IMAGE"
         env:
-          IMAGE: ghcr.io/idacjohansson/workflow-dockerimage-actions-final-individuell:main
+          IMAGE: ${{ github.repository }}:${{ github.head_ref }}"
