@@ -2,6 +2,10 @@
 name: Java CI and Dockerfile Validation
 on:
   - push
+
+pull_request:
+    branches:
+      - main
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -154,6 +158,10 @@ jobs:
     needs: dockerize
 
     steps:
-      - name: Deploy Your Application
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Deploy Your Fake Application
         run: |
-          echo "This is a message from the workflow task."
+          "echo Docker image would be: $IMAGE"
+        env:
+          IMAGE: ghcr.io/idacjohansson/workflow-dockerimage-actions-final-individuell:main
