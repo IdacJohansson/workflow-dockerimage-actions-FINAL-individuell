@@ -27,16 +27,16 @@ class TaskInstanceTest {
 
     @Test
     void getTask() {
-        Task testTask = taskInstance.getTaskOfTheDay();
+        Task testTask = taskInstance.getTask();
         assertEquals(task, testTask);
     }
 
     @Test
     void setTask() {
         Task testTask = new Task(1,"wash");
-        taskInstance.setTaskOfTheDay(testTask);
+        taskInstance.setTask(testTask);
 
-        assertNotEquals(taskInstance.getTaskOfTheDay(), task);
+        assertNotEquals(taskInstance.getTask(), task);
     }
 
     @Test

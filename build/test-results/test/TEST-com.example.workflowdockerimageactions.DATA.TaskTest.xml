@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.workflowdockerimageactions.DATA.TaskTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-10-04T13:56:16" hostname="Idas-MBP" time="0.722">
+  <properties/>
+  <testcase name="setName_returnSetName()" classname="com.example.workflowdockerimageactions.DATA.TaskTest" time="0.722"/>
+  <system-out><![CDATA[15:56:10.337 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.example.workflowdockerimageactions.DATA.TaskTest]: TaskTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+15:56:10.476 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.example.workflowdockerimageactions.WorkflowDockerimageActionsApplication for test class com.example.workflowdockerimageactions.DATA.TaskTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.1.4)
+
+2023-10-04T15:56:10.977+02:00  INFO 11549 --- [    Test worker] c.e.w.DATA.TaskTest                      : Starting TaskTest using Java 17.0.5 with PID 11549 (started by ida in /Users/ida/IdeaProjects/workflow-dockerimage-actions-FINAL-individuell)
+2023-10-04T15:56:10.979+02:00  INFO 11549 --- [    Test worker] c.e.w.DATA.TaskTest                      : No active profile set, falling back to 1 default profile: "default"
+2023-10-04T15:56:12.114+02:00  INFO 11549 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-10-04T15:56:12.192+02:00  INFO 11549 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 65 ms. Found 1 JPA repository interfaces.
+2023-10-04T15:56:12.820+02:00  INFO 11549 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-10-04T15:56:13.082+02:00  INFO 11549 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=${DB_USER}
+2023-10-04T15:56:13.087+02:00  INFO 11549 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-10-04T15:56:13.166+02:00  INFO 11549 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-10-04T15:56:13.241+02:00  INFO 11549 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.9.Final
+2023-10-04T15:56:13.245+02:00  INFO 11549 --- [    Test worker] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2023-10-04T15:56:13.409+02:00  INFO 11549 --- [    Test worker] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2023-10-04T15:56:13.579+02:00  INFO 11549 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-10-04T15:56:13.927+02:00  INFO 11549 --- [    Test worker] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2023-10-04T15:56:14.758+02:00  INFO 11549 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-10-04T15:56:14.807+02:00  INFO 11549 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-10-04T15:56:15.461+02:00  WARN 11549 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-10-04T15:56:15.681+02:00  INFO 11549 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@344cf00f, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@598ff2b3, org.springframework.security.web.context.SecurityContextHolderFilter@24890021, org.springframework.security.web.header.HeaderWriterFilter@71c69628, org.springframework.security.web.authentication.logout.LogoutFilter@4131261, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@27422187, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@14b4b25e, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1002f859, org.springframework.security.web.access.ExceptionTranslationFilter@7dd847a2, org.springframework.security.web.access.intercept.AuthorizationFilter@3f3a529f]
+2023-10-04T15:56:16.317+02:00  INFO 11549 --- [    Test worker] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2023-10-04T15:56:16.567+02:00  INFO 11549 --- [    Test worker] c.e.w.DATA.TaskTest                      : Started TaskTest in 5.884 seconds (process running for 7.364)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
