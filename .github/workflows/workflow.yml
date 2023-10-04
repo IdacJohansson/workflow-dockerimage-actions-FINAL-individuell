@@ -1,9 +1,12 @@
 ---
 name: Java CI and Dockerfile Validation
 on:
+  push:
+    branches:
+      - main
   pull_request:
-  branches:
-    - main
+    branches:
+      - main
 jobs:
   build:
     runs-on: ubuntu-latest
