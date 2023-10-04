@@ -1,5 +1,6 @@
 ---
 name: Java CI and Dockerfile Validation
+
 on:
   push:
     branches:
