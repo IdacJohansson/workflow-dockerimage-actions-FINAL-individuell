@@ -8,6 +8,9 @@ on:
   pull_request:
     branches:
     - main
+  # event som triggar ditt workflow =
+  # varje gång någon pushar till master - kommer workflowet nedan att köras
+  # varje gång någon gör en PR av master - kommer workflowet nedan att köras
 
 jobs:
   build:
