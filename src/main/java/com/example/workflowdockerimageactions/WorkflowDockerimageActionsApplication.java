@@ -13,6 +13,7 @@ public class WorkflowDockerimageActionsApplication {
     public static void main(String[] args) {
         SpringApplication.run(WorkflowDockerimageActionsApplication.class, args);
         System.out.println("Im am a merge fail to");
+        System.out.println("Im am a merge fail to");
     }
 
 }
