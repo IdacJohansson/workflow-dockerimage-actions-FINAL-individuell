@@ -11,6 +11,7 @@ public class WorkflowDockerimageActionsApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(WorkflowDockerimageActionsApplication.class, args);
+        System.out.println("I am a merge conflict");
     }
 
 }
