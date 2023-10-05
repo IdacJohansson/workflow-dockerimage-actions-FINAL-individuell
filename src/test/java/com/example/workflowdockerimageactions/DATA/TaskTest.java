@@ -21,7 +21,7 @@ public final class TaskTest {
 
     @BeforeEach
     public void createTestTask() {
-        testTask = new Task("Task 1");
+        testTask = new Task( "Task 1");
     }
 
 
